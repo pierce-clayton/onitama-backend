@@ -46,6 +46,6 @@ class MovesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def move_params
-      params.require(:move).permit(:game_id)
+      params.fetch(:move, {})
     end
 end

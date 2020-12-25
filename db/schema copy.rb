@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_24_003422) do
+ActiveRecord::Schema.define(version: 2020_12_23_000835) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -29,28 +29,15 @@ ActiveRecord::Schema.define(version: 2020_12_24_003422) do
   end
 
   create_table "games", force: :cascade do |t|
-    t.string "state"
-    t.integer "winner_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "moves", force: :cascade do |t|
     t.bigint "game_id", null: false
-    t.integer "current_player"
-    t.bigint "piece_id", null: false
-    t.bigint "card_id", null: false
-    t.integer "piece_x_start"
-    t.integer "piece_y_start"
-    t.integer "piece_x_end"
-    t.integer "piece_y_end"
-    t.integer "card_start"
-    t.integer "card_end"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["card_id"], name: "index_moves_on_card_id"
     t.index ["game_id"], name: "index_moves_on_game_id"
-    t.index ["piece_id"], name: "index_moves_on_piece_id"
   end
 
   create_table "pieces", force: :cascade do |t|
@@ -69,6 +56,7 @@ ActiveRecord::Schema.define(version: 2020_12_24_003422) do
     t.bigint "user_id", null: false
     t.bigint "game_id", null: false
     t.boolean "red"
+    t.boolean "won"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["game_id"], name: "index_user_games_on_game_id"
@@ -83,9 +71,7 @@ ActiveRecord::Schema.define(version: 2020_12_24_003422) do
 
   add_foreign_key "cards", "games"
   add_foreign_key "cards", "users"
-  add_foreign_key "moves", "cards"
   add_foreign_key "moves", "games"
-  add_foreign_key "moves", "pieces"
   add_foreign_key "pieces", "games"
   add_foreign_key "pieces", "users"
   add_foreign_key "user_games", "games"
